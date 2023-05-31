@@ -1,6 +1,7 @@
-import { GetStaticProps, InferGetStaticPropsType } from 'next';
+import type { InferGetStaticPropsType, GetStaticProps } from 'next';
 import Link from 'next/link'
-
+import { useEffect } from 'react';
+ 
 type Repo = {
   name: string;
   stargazers_count: number;
@@ -14,19 +15,16 @@ export const getStaticProps: GetStaticProps<{
   return { props: { repo } };
 };
 
-export default function Home({
+export default function Page1({
   repo,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
 
-  return (
-    <>
-      <main>
-        <h1>{repo.name}</h1>
-        <nav style={{display: 'flex'}}>
-          <Link style={{marginRight: '10px'}} href="/">Home</Link>
-          <Link href="/page1">Page1</Link>
-        </nav>
-      </main>
-    </>
-  )
+  useEffect(() => {
+    document.cookie = "my-token=abcd"
+  }, []);
+
+  return <div>
+    <Link href='/'>Home</Link>
+    <h1>{repo.stargazers_count}</h1>
+    </div>;
 }
